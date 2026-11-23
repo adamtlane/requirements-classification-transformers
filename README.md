@@ -22,13 +22,39 @@ Fine-tuned DistilBERT is compared against TF-IDF with class weighted logistic re
 
 The value of pretraining for requirements classification lies mainly in robustness to unseen projects rather than in accuracy on familiar ones.
 
-## Status
+![Cross project macro F1 for the baseline and DistilBERT](figures/cross_project.png)
 
-The research notebook, results, and IEEE format paper will be published here after the Fall 2026 term ends.
+## Paper
+
+- [Research paper, IEEE conference format (PDF)](paper/Lane-Requirements-Classification-Paper.pdf)
+
+## Repository contents
+
+| Path | Role |
+|---|---|
+| `Lane-Research-Notebook.ipynb` | The full experiment with outputs, from data loading through the baseline, fine-tuning, statistical tests, ablation, and learning curve |
+| `PROMISE_exp.csv` | The PROMISE_exp dataset (Lima et al., SBES 2019), 968 labeled requirements from 47 projects |
+| `results/run_cache.json` | Every fine-tuning run, keyed by task, protocol, fold, and configuration |
+| `results/summary.json`, `results/robustness.json` | Summary metrics and the robustness experiments reported in the paper |
+| `figures/` | Every figure in the paper |
+| `paper/` | The final paper as PDF |
+
+## Running it
+
+```
+pip install -r requirements.txt
+jupyter notebook Lane-Research-Notebook.ipynb
+```
+
+The notebook expects `PROMISE_exp.csv` beside it. The transformer experiments use the pretrained `distilbert-base-uncased` checkpoint and a CUDA GPU, and the 178 fine-tuning runs of the main experiment took about 1.5 GPU hours. Because every run is cached in `results/run_cache.json`, rerunning the notebook with this repository's cache reproduces the reported numbers without retraining. Without network access to the checkpoint, the notebook falls back to a small smoke test model so the pipeline still runs end to end.
 
 ## Built with
 
 Python, PyTorch, Hugging Face Transformers, scikit-learn, SciPy
+
+## Data
+
+PROMISE_exp was published by Lima, Valle, Cordeiro, and Ferreira at the Brazilian Symposium on Software Engineering (SBES 2019) as an expansion of the original PROMISE NFR dataset. It is included here for reproducibility with credit to its authors.
 
 ## Context
 
